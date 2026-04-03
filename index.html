@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Events — The Digital Auteur</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Manrope:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #131313;
+      color: #e5e2e1;
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    ::selection {
+      background: #44ddc1;
+      color: #00382f;
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0e0e0e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #353534;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #cfbcff;
+    }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(207, 188, 255, 0.45);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      background: #cfbcff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+
+    .cursor-ring.active {
+      background: rgba(207, 188, 255, 0.12);
+      border-color: rgba(207, 188, 255, 0.85);
+    }
+
+    /* ============================================================
+       NOISE + PROGRESS
+    ============================================================ */
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #cfbcff, #44ddc1);
+      z-index: 9998;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    /* ============================================================
+       MATERIAL SYMBOLS
+    ============================================================ */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+
+    /* ============================================================
+       PRELOADER
+    ============================================================ */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #0e0e0e;
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .pre-logo {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 3.5rem);
+      letter-spacing: -0.05em;
+      background: linear-gradient(135deg, #cfbcff, #6200ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pre-bar {
+      width: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, #cfbcff, #44ddc1);
+    }
+
+    .pre-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #494456;
+      margin-top: -8px;
+    }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    #site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    #site-nav.scrolled {
+      background: rgba(13, 13, 13, 0.82);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 0 1px 0 rgba(73, 68, 86, 0.2);
+    }
+
+    .nav-logo-text {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #cfbcff 0%, #6200ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .ham-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
+      position: relative;
+      z-index: 6000;
+      background: none;
+      border: none;
+    }
+
+    .ham-line {
+      width: 24px;
+      height: 1.5px;
+      background: #cfbcff;
+      display: block;
+      transform-origin: center;
+    }
+
+    /* ============================================================
+       MENU OVERLAY
+    ============================================================ */
+    #menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0d0d0d;
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(2rem, 6vw, 5rem);
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
+    }
+
+    #menu-overlay.is-open {
+      pointer-events: all;
+    }
+
+    .menu-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #44ddc1;
+      margin-bottom: 0.75rem;
+    }
+
+    .menu-rule {
+      width: 40px;
+      height: 1.5px;
+      background: linear-gradient(90deg, #cfbcff, #44ddc1);
+      margin-bottom: 3rem;
+    }
+
+    .menu-link-wrap {
+      overflow: hidden;
+    }
+
+    .menu-link {
+      display: block;
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 6.5vw, 5.2rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      color: #353534;
+      text-decoration: none;
+      padding: 0.2em 0;
+      transition: color 0.25s ease;
+    }
+
+    .menu-link:hover {
+      color: #cfbcff;
+    }
+
+    .menu-close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: clamp(1.5rem, 5vw, 4rem);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #494456;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .menu-close-btn:hover {
+      color: #cfbcff;
+    }
+
+    .menu-footer {
+      position: absolute;
+      bottom: 2rem;
+      right: clamp(1.5rem, 5vw, 4rem);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #2a2a2a;
+    }
+
+    /* ============================================================
+       HERO — VIDEO BG
+    ============================================================ */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-video-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .hero-video-wrap video {
+      width: 100%;
+      height: 115%;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.55;
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, #131313 20%, rgba(19, 19, 19, 0.55) 55%, rgba(19, 19, 19, 0.1) 100%);
+    }
+
+    .hero-body {
+      position: relative;
+      z-index: 10;
+      padding: 0 clamp(1.5rem, 6vw, 6rem);
+      max-width: 1100px;
+    }
+
+    .hero-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #44ddc1;
+      margin-bottom: 1.5rem;
+    }
+
+    .reveal-clip {
+      overflow: hidden;
+      display: block;
+    }
+
+    .reveal-inner {
+      display: block;
+      transform: translateY(105%);
+      will-change: transform;
+    }
+
+    .hero-h1 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-h1 .accent-line {
+      background: linear-gradient(135deg, #cfbcff 0%, #6200ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-hint span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #494456;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(207, 188, 255, 0.3), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+
+      0%,
+      100% {
+        transform: scaleY(1);
+        opacity: 1
+      }
+
+      50% {
+        transform: scaleY(0.6);
+        opacity: 0.4
+      }
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #44ddc1;
+      color: #00382f;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.1rem 2.2rem;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.2s;
+      will-change: transform;
+    }
+
+    .btn-teal:hover {
+      box-shadow: 0 0 32px rgba(68, 221, 193, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #cfbcff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.1rem 2.2rem;
+      border-radius: 3px;
+      border: 1px solid rgba(73, 68, 86, 0.5);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
+      will-change: transform;
+    }
+
+    .btn-outline:hover {
+      background: rgba(207, 188, 255, 0.07);
+      border-color: rgba(207, 188, 255, 0.35);
+    }
+
+    .btn-ghost-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: #44ddc1;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.1rem 2.4rem;
+      border-radius: 3px;
+      border: 1px solid rgba(68, 221, 193, 0.45);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
+      will-change: transform;
+    }
+
+    .btn-ghost-teal:hover {
+      background: rgba(68, 221, 193, 0.08);
+      border-color: rgba(68, 221, 193, 0.7);
+    }
+
+    .btn-ghost-teal .material-symbols-outlined {
+      font-size: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .btn-ghost-teal:hover .material-symbols-outlined {
+      transform: translateX(4px);
+    }
+
+    /* ============================================================
+       SECTION EYEBROW
+    ============================================================ */
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #44ddc1;
+    }
+
+    .eyebrow-rule {
+      width: 40px;
+      height: 1.5px;
+      background: linear-gradient(90deg, #cfbcff, #44ddc1);
+      margin: 0.6rem 0 1.5rem;
+    }
+
+    /* ============================================================
+       LOGOS TICKER — WHITE BG
+    ============================================================ */
+    #logos-section {
+      background: #ffffff;
+      overflow: hidden;
+      padding: 0;
+      border-top: 1px solid #ebebeb;
+      border-bottom: 1px solid #ebebeb;
+    }
+
+    .logos-track-wrap {
+      overflow: hidden;
+      padding: 2rem 0;
+    }
+
+    .logos-track {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      width: max-content;
+    }
+
+    .logo-item {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.75;
+      transition: opacity 0.3s;
+    }
+
+    .logo-item:hover {
+      opacity: 1;
+    }
+
+    .logo-item img {
+      height: 100px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ============================================================
+       RESULTS — EXPANDABLE GALLERY
+    ============================================================ */
+    #results {
+      background: #0e0e0e;
+      padding: 7rem 0 6rem;
+    }
+
+    .results-header {
+      padding: 0 clamp(1.5rem, 6vw, 6rem);
+      margin-bottom: 4rem;
+    }
+
+    .results-header h2 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      color: #cfbcff;
+    }
+
+    /* Gallery strip */
+    .gallery-strip {
+      display: flex;
+      height: clamp(440px, 68vh, 720px);
+      gap: 3px;
+    }
+
+    .gallery-item {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: flex 0.72s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gallery-item.is-active {
+      flex: 4;
+    }
+
+    .gallery-item.is-shrunk {
+      flex: 0.45;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .gallery-item.is-active img {
+      transform: scale(1.05);
+    }
+
+    .gallery-veil {
+      position: absolute;
+      inset: 0;
+      background: rgba(14, 14, 14, 0.42);
+      transition: background 0.65s;
+    }
+
+    .gallery-item.is-active .gallery-veil {
+      background: rgba(14, 14, 14, 0.08);
+    }
+
+    .gallery-item.is-shrunk .gallery-veil {
+      background: rgba(14, 14, 14, 0.62);
+    }
+
+    .gallery-content-wrap {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(14, 14, 14, 0.92) 0%, rgba(14, 14, 14, 0.15) 45%, transparent 65%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2.2rem;
+    }
+
+    .gallery-num {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.8rem;
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      letter-spacing: -0.05em;
+      color: rgba(207, 188, 255, 0.18);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.45s 0.15s, transform 0.45s 0.15s, color 0.4s;
+      pointer-events: none;
+    }
+
+    .gallery-item.is-active .gallery-num {
+      opacity: 1;
+      transform: translateY(0);
+      color: rgba(207, 188, 255, 0.35);
+    }
+
+    .gallery-text {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.42s 0.18s, transform 0.42s 0.18s;
+    }
+
+    .gallery-item.is-active .gallery-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gallery-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #44ddc1;
+      margin-bottom: 0.45rem;
+    }
+
+    .gallery-title {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.15rem, 1.9vw, 1.65rem);
+      color: #e5e2e1;
+      line-height: 1.1;
+    }
+
+    .gallery-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(207, 188, 255, 0.55);
+    }
+
+    .gallery-arrow .material-symbols-outlined {
+      font-size: 0.9rem;
+    }
+
+    /* Mobile: stack */
+    @media (max-width: 700px) {
+      .gallery-strip {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .gallery-item {
+        height: 260px;
+        flex: none !important;
+      }
+
+      .gallery-text {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .gallery-num {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .gallery-veil {
+        background: rgba(14, 14, 14, 0.25) !important;
+      }
+    }
+
+    /* ============================================================
+       FIVE Cs — MERGED SECTION (content + vision design)
+    ============================================================ */
+    #five-cs {
+      background: #0e0e0e;
+      overflow: hidden;
+      position: relative;
+      padding: 10rem clamp(1.5rem, 6vw, 6rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .five-ghost {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.82);
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(6rem, 18vw, 18rem);
+      color: rgba(53, 53, 52, 0.1);
+      text-transform: uppercase;
+      letter-spacing: -0.06em;
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .five-body {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+      width: 100%;
+    }
+
+    .five-headline {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(5.5rem, 16vw, 15rem);
+      line-height: 0.83;
+      letter-spacing: -0.06em;
+      margin-bottom: 0.05em;
+    }
+
+    .five-headline .line-1 {
+      color: #e5e2e1;
+      display: block;
+    }
+
+    .five-headline .line-2 {
+      color: #cfbcff;
+      font-style: italic;
+      display: block;
+    }
+
+    .five-rule {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, #44ddc1, #cfbcff);
+      margin: 2.2rem auto 2.8rem;
+    }
+
+    .five-text {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+      line-height: 1.9;
+      color: #6e6880;
+      text-align: center;
+    }
+
+    .five-text+.five-text {
+      margin-top: 1.5rem;
+    }
+
+    .five-text .hl {
+      color: #e5e2e1;
+      font-weight: 700;
+    }
+
+    .five-text .hl-accent {
+      color: #cfbcff;
+      font-weight: 700;
+    }
+
+    .five-cta {
+      margin-top: 3.5rem;
+    }
+
+    /* ============================================================
+       CTA SECTION
+    ============================================================ */
+    #cta {
+      background: #0e0e0e;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .cta-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      aspect-ratio: 1;
+      background: radial-gradient(ellipse, rgba(98, 0, 234, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1c1b1b;
+      border-radius: 20px;
+      padding: clamp(3rem, 6vw, 6rem);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-top-line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(207, 188, 255, 0.25), transparent);
+    }
+
+    .cta-headline {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: #e5e2e1;
+    }
+
+    .cta-headline .highlight {
+      color: #44ddc1;
+      font-style: italic;
+    }
+
+    .cta-sub {
+      font-family: 'Manrope', sans-serif;
+      font-size: 1rem;
+      color: #cbc3d9;
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 1.5rem auto 0;
+    }
+
+    /* ============================================================
+       FOOTER — EPIC
+    ============================================================ */
+    #site-footer {
+      background: #0a0a0a;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ---- Big hover text ---- */
+    .footer-hero-text-wrap {
+      position: relative;
+      padding: 4rem clamp(1.5rem, 6vw, 6rem) 0;
+      overflow: hidden;
+      border-top: 1px solid #161616;
+    }
+
+    .footer-big-text {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(4rem, 12vw, 12rem);
+      line-height: 0.85;
+      letter-spacing: -0.06em;
+      color: #1a1a1a;
+      user-select: none;
+      cursor: default;
+      position: relative;
+      display: block;
+    }
+
+    .footer-big-text::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #cfbcff 0%, #6200ea 50%, #44ddc1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      -webkit-mask-image: radial-gradient(circle 250px at var(--cx, 50%) var(--cy, 50%), black 0%, transparent 70%);
+      mask-image: radial-gradient(circle 250px at var(--cx, 50%) var(--cy, 50%), black 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ---- Footer grid ---- */
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 4rem;
+      padding: 4rem clamp(1.5rem, 6vw, 6rem);
+      border-top: 1px solid #161616;
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-brand-logo {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #cfbcff, #6200ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .footer-brand-desc {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.82rem;
+      color: #3a3838;
+      line-height: 1.75;
+      max-width: 260px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #161616;
+      border: 1px solid #242424;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #353534;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.2s;
+    }
+
+    .social-btn:hover {
+      color: #44ddc1;
+      border-color: rgba(68, 221, 193, 0.35);
+      background: rgba(68, 221, 193, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .social-btn .material-symbols-outlined {
+      font-size: 1rem;
+    }
+
+    .footer-col-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #353534;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.82rem;
+      color: #3a3838;
+      text-decoration: none;
+      margin-bottom: 0.8rem;
+      transition: color 0.2s;
+      cursor: pointer;
+      position: relative;
+      width: fit-content;
+    }
+
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #44ddc1;
+      transition: width 0.3s;
+    }
+
+    .footer-link:hover {
+      color: #cbc3d9;
+    }
+
+    .footer-link:hover::after {
+      width: 100%;
+    }
+
+    /* ---- Footer bottom ---- */
+    .footer-bottom {
+      border-top: 1px solid #161616;
+      padding: 1.5rem clamp(1.5rem, 6vw, 6rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #242424;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-bottom-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2a2a2a;
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .footer-bottom-link:hover {
+      color: #494456;
+    }
+
+
+    /* ============================================================
+       GSAP INITIAL HIDDEN
+    ============================================================ */
+    .gsap-hide {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body class="dark">
+
+  <div class="noise" aria-hidden="true"></div>
+  <div id="progress-bar"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+
+  <!-- ============================================================
+       PRELOADER
+  ============================================================ -->
+  <div id="preloader">
+    <div class="pre-logo">GLOBAL EVENTS</div>
+    <div class="pre-bar" id="pre-bar"></div>
+    <div class="pre-sub">The Digital Auteur</div>
+  </div>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav id="site-nav">
+    <a href="#" class="nav-logo-text">GLOBAL EVENTS</a>
+    <button class="ham-btn" id="ham-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="ham-line" id="hl1"></span>
+      <span class="ham-line" id="hl2"></span>
+      <span class="ham-line" id="hl3"></span>
+    </button>
+  </nav>
+
+  <!-- ============================================================
+       MENU OVERLAY
+  ============================================================ -->
+  <div id="menu-overlay" aria-hidden="true" role="dialog">
+    <button class="menu-close-btn" id="menu-close">
+      <span class="material-symbols-outlined" style="font-size:1rem">close</span>
+      Close
+    </button>
+
+    <div>
+      <p class="menu-eyebrow">Navigation</p>
+      <div class="menu-rule"></div>
+    </div>
+
+    <nav>
+      <div class="menu-link-wrap"><a href="#five-cs" class="menu-link" data-ml>Five Cs</a></div>
+      <div class="menu-link-wrap"><a href="#results" class="menu-link" data-ml>Results</a></div>
+      <div class="menu-link-wrap"><a href="#five-cs" class="menu-link" data-ml>Why Global Events</a></div>
+      <div class="menu-link-wrap"><a href="#cta" class="menu-link" data-ml>Get in Touch</a></div>
+    </nav>
+
+    <div style="margin-top: 3.5rem">
+      <button class="btn-teal">Book a Consultation</button>
+    </div>
+
+    <div class="menu-footer">The Digital Auteur Strategy &nbsp;·&nbsp; Est. 2019</div>
+  </div>
+
+  <!-- ============================================================
+       MAIN
+  ============================================================ -->
+  <main>
+
+    <!-- ========== HERO ========== -->
+    <section id="hero">
+      <div class="hero-video-wrap" id="hero-parallax">
+        <video autoplay loop muted playsinline preload="metadata">
+          <source src="videos/events-2025.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero-vignette"></div>
+
+      <div class="hero-body">
+        <div class="reveal-clip">
+          <span class="hero-tag reveal-inner" id="hero-tag">Redefining the Spectacle</span>
+        </div>
+
+        <h1 class="hero-h1">
+          <span class="reveal-clip"><span class="reveal-inner" id="hl-a">Authentic brand</span></span>
+          <span class="reveal-clip"><span class="reveal-inner" id="hl-b">experiences</span></span>
+          <span class="reveal-clip"><span class="reveal-inner accent-line" id="hl-c">&amp; events</span></span>
+        </h1>
+
+        <div class="hero-cta-row gsap-hide" id="hero-ctas">
+          <button class="btn-teal mag">See our work</button>
+          <button class="btn-outline mag">Start a project</button>
+        </div>
+      </div>
+
+      <div class="scroll-hint gsap-hide" id="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ========== LOGOS TICKER — WHITE BG ========== -->
+    <section id="logos-section">
+      <div class="logos-track-wrap">
+        <div class="logos-track" id="logos-track">
+          <div class="logo-item"><img src="images/logo-amd.png" alt="AMD"></div>
+          <div class="logo-item"><img src="images/logo-bitcoin.png" alt="Bitcoin"></div>
+          <div class="logo-item"><img src="images/logo-dr-horton.png" alt="DR Horton"></div>
+          <div class="logo-item"><img src="images/logo-pokemon-world.png" alt="Pokemon World"></div>
+          <div class="logo-item"><img src="images/logo-ubisoft.png" alt="Ubisoft"></div>
+          <!-- duplicate 1 -->
+          <div class="logo-item"><img src="images/logo-amd.png" alt="AMD"></div>
+          <div class="logo-item"><img src="images/logo-bitcoin.png" alt="Bitcoin"></div>
+          <div class="logo-item"><img src="images/logo-dr-horton.png" alt="DR Horton"></div>
+          <div class="logo-item"><img src="images/logo-pokemon-world.png" alt="Pokemon World"></div>
+          <div class="logo-item"><img src="images/logo-ubisoft.png" alt="Ubisoft"></div>
+          <!-- duplicate 2 -->
+          <div class="logo-item"><img src="images/logo-amd.png" alt="AMD"></div>
+          <div class="logo-item"><img src="images/logo-bitcoin.png" alt="Bitcoin"></div>
+          <div class="logo-item"><img src="images/logo-dr-horton.png" alt="DR Horton"></div>
+          <div class="logo-item"><img src="images/logo-pokemon-world.png" alt="Pokemon World"></div>
+          <div class="logo-item"><img src="images/logo-ubisoft.png" alt="Ubisoft"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== RESULTS GALLERY ========== -->
+    <section id="results">
+      <div class="results-header">
+        <p class="eyebrow">Selected Projects</p>
+        <div class="eyebrow-rule"></div>
+        <h2>
+          <span class="reveal-clip"><span class="reveal-inner" id="rt-a">RESULTS</span></span>
+        </h2>
+        <p style="font-size:0.9rem; color:#cbc3d9; margin-top:1rem; max-width:420px; line-height:1.65">
+          Select case studies where vision met flawless execution.
+        </p>
+      </div>
+
+      <div class="gallery-strip" id="gallery-strip">
+
+        <!-- AMD -->
+        <div class="gallery-item" data-index="0">
+          <img src="images/Case%20Studies/amd.jpg" alt="AMD Launch Summit" loading="lazy">
+          <div class="gallery-veil"></div>
+          <div class="gallery-content-wrap">
+            <span class="gallery-num">01</span>
+            <div class="gallery-text">
+              <p class="gallery-tag">Tech Experience</p>
+              <h3 class="gallery-title">AMD Launch Summit</h3>
+              <span class="gallery-arrow">
+                View case study
+                <span class="material-symbols-outlined">north_east</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bitcoin -->
+        <div class="gallery-item" data-index="1">
+          <img src="images/Case%20Studies/bitcoin.jpg" alt="Bitcoin World Forum" loading="lazy">
+          <div class="gallery-veil"></div>
+          <div class="gallery-content-wrap">
+            <span class="gallery-num">02</span>
+            <div class="gallery-text">
+              <p class="gallery-tag">Finance &amp; Innovation</p>
+              <h3 class="gallery-title">Bitcoin World Forum</h3>
+              <span class="gallery-arrow">
+                View case study
+                <span class="material-symbols-outlined">north_east</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DR Horton -->
+        <div class="gallery-item" data-index="2">
+          <img src="images/Case%20Studies/dr-horton.jpg" alt="D.R. Horton Annual Gala" loading="lazy">
+          <div class="gallery-veil"></div>
+          <div class="gallery-content-wrap">
+            <span class="gallery-num">03</span>
+            <div class="gallery-text">
+              <p class="gallery-tag">Corporate Experience</p>
+              <h3 class="gallery-title">D.R. Horton Annual Gala</h3>
+              <span class="gallery-arrow">
+                View case study
+                <span class="material-symbols-outlined">north_east</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pokemon -->
+        <div class="gallery-item" data-index="3">
+          <img src="images/Case%20Studies/pokemon.jpg" alt="Pokémon World Championship" loading="lazy">
+          <div class="gallery-veil"></div>
+          <div class="gallery-content-wrap">
+            <span class="gallery-num">04</span>
+            <div class="gallery-text">
+              <p class="gallery-tag">Immersive Entertainment</p>
+              <h3 class="gallery-title">Pokémon World Championship</h3>
+              <span class="gallery-arrow">
+                View case study
+                <span class="material-symbols-outlined">north_east</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ubisoft -->
+        <div class="gallery-item" data-index="4">
+          <img src="images/Case%20Studies/ubisoft.jpg" alt="Ubisoft Forward" loading="lazy">
+          <div class="gallery-veil"></div>
+          <div class="gallery-content-wrap">
+            <span class="gallery-num">05</span>
+            <div class="gallery-text">
+              <p class="gallery-tag">Gaming &amp; Culture</p>
+              <h3 class="gallery-title">Ubisoft Forward</h3>
+              <span class="gallery-arrow">
+                View case study
+                <span class="material-symbols-outlined">north_east</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== FIVE Cs (merged with vision design) ========== -->
+    <section id="five-cs">
+      <div class="five-ghost" id="five-ghost">FIVE CS</div>
+
+      <div class="five-body">
+        <p class="eyebrow gsap-hide" id="fv-eyebrow">Our Framework</p>
+        <div class="eyebrow-rule gsap-hide" id="fv-rule" style="margin:0.6rem auto 1.5rem"></div>
+
+        <h2 class="five-headline gsap-hide" id="fv-headline">
+          <span class="line-1">FIVE</span>
+          <span class="line-2">Cs</span>
+        </h2>
+
+        <div class="five-rule gsap-hide" id="fv-divider"></div>
+
+        <p class="five-text gsap-hide" id="fv-p1">
+          The most effective events do more than <span class="hl">fill space</span> or chase attention. They create
+          something people can actually feel part of. They stay with people because they felt <span
+            class="hl">real</span>. Real in their <span class="hl">connection</span>. Real in their <span
+            class="hl">context</span>. Real in the sense that they created <span class="hl">community</span>, carried
+          <span class="hl">continuity</span>, and knew how to <span class="hl">captivate</span> without pretending to be
+          something they were not.
+        </p>
+
+        <p class="five-text gsap-hide" id="fv-p2">
+          That is the role of the Five Cs. A framework for building experiences that feel <span
+            class="hl-accent">genuine rather than market-y</span>, and <span class="hl-accent">distinct rather than
+            interchangeable</span>. Not a copy of what worked for someone else. An experience with its own center of
+          gravity. One fans can step into, believe in, and remember.
+        </p>
+
+        <div class="five-cta gsap-hide" id="fv-cta">
+          <button class="btn-ghost-teal mag">
+            See authentic results
+            <span class="material-symbols-outlined">trending_flat</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section id="cta">
+      <div class="cta-glow"></div>
+      <div class="cta-card gsap-hide" id="cta-card">
+        <div class="cta-top-line"></div>
+        <p class="eyebrow gsap-hide" id="cta-label">Ready to Begin</p>
+        <div class="eyebrow-rule gsap-hide" id="cta-rule" style="margin: 0.6rem auto 2rem"></div>
+        <h2 class="cta-headline gsap-hide" id="cta-h">
+          READY TO DIRECT<br>
+          <span class="highlight">YOUR NEXT CHAPTER?</span>
+        </h2>
+        <p class="cta-sub gsap-hide" id="cta-p">
+          From intimate summits to global spectacles, let's build a narrative that lasts long after the lights go out.
+        </p>
+        <div style="margin-top:3rem" class="gsap-hide" id="cta-btns">
+          <button class="btn-teal mag">Get in touch</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="site-footer">
+
+    <!-- Big hover text -->
+    <div class="footer-hero-text-wrap">
+      <span class="footer-big-text" data-text="GLOBAL EVENTS" id="footer-big-text">GLOBAL EVENTS</span>
+    </div>
+
+    <!-- Grid -->
+    <div class="footer-grid">
+
+      <!-- Brand col -->
+      <div>
+        <span class="footer-brand-logo">GLOBAL EVENTS</span>
+        <p class="footer-brand-desc">
+          Cinematic event production crafted with precision, narrative, and relentless creative ambition.
+        </p>
+        <div class="footer-social-row">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <span class="material-symbols-outlined">business_center</span>
+          </a>
+          <a href="#" class="social-btn" aria-label="X / Twitter">
+            <span class="material-symbols-outlined">rss_feed</span>
+          </a>
+          <a href="#" class="social-btn" aria-label="YouTube">
+            <span class="material-symbols-outlined">play_circle</span>
+          </a>
+          <a href="#" class="social-btn" aria-label="Email">
+            <span class="material-symbols-outlined">alternate_email</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Company col -->
+      <div>
+        <p class="footer-col-label">Company</p>
+        <a href="#" class="footer-link">About Us</a>
+        <a href="#five-cs" class="footer-link">Five Cs</a>
+        <a href="#five-cs" class="footer-link">Why Global Events</a>
+        <a href="#" class="footer-link">Careers</a>
+      </div>
+
+      <!-- Services col -->
+      <div>
+        <p class="footer-col-label">Services</p>
+        <a href="#" class="footer-link">Live Events</a>
+        <a href="#" class="footer-link">Brand Activations</a>
+        <a href="#" class="footer-link">VFX &amp; Tech</a>
+        <a href="#" class="footer-link">Spatial Design</a>
+      </div>
+
+      <!-- Contact col -->
+      <div>
+        <p class="footer-col-label">Contact</p>
+        <a href="mailto:hello@globalevents.com" class="footer-link">
+          <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">alternate_email</span>
+          hello@globalevents.com
+        </a>
+        <a href="tel:+12125550100" class="footer-link">
+          <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">call</span>
+          +1 (212) 555 0100
+        </a>
+        <a href="#" class="footer-link">
+          <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">location_on</span>
+          New York, NY
+        </a>
+        <div style="margin-top:1.5rem">
+          <button class="btn-teal" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in Touch</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Global Events. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#" class="footer-bottom-link">Privacy</a>
+        <a href="#" class="footer-bottom-link">Terms</a>
+        <a href="#" class="footer-bottom-link">Accessibility</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+
+  <script>
+    (() => {
+      'use strict';
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.defaults({ ease: 'power3.out' });
+
+      /* ================================================
+         CUSTOM CURSOR
+      ================================================ */
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+      const rX = gsap.quickTo(ring, 'x', { duration: 0.55, ease: 'power3.out' });
+      const rY = gsap.quickTo(ring, 'y', { duration: 0.55, ease: 'power3.out' });
+      const dX = gsap.quickTo(dot, 'x', { duration: 0.08 });
+      const dY = gsap.quickTo(dot, 'y', { duration: 0.08 });
+
+      window.addEventListener('mousemove', e => {
+        rX(e.clientX); rY(e.clientY);
+        dX(e.clientX); dY(e.clientY);
+      });
+      document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          ring.classList.add('active');
+          gsap.to(ring, { scale: 2.2, duration: 0.3 });
+          gsap.to(dot, { scale: 0, duration: 0.2 });
+        });
+        el.addEventListener('mouseleave', () => {
+          ring.classList.remove('active');
+          gsap.to(ring, { scale: 1, duration: 0.4 });
+          gsap.to(dot, { scale: 1, duration: 0.3 });
+        });
+      });
+
+      /* ================================================
+         PROGRESS BAR
+      ================================================ */
+      const progressBar = document.getElementById('progress-bar');
+      window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        gsap.set(progressBar, { scaleX: pct, transformOrigin: 'left' });
+      }, { passive: true });
+
+      /* ================================================
+         NAV SCROLL STATE
+      ================================================ */
+      const siteNav = document.getElementById('site-nav');
+      ScrollTrigger.create({
+        start: 100,
+        onEnter: () => siteNav.classList.add('scrolled'),
+        onLeaveBack: () => siteNav.classList.remove('scrolled'),
+      });
+
+      /* ================================================
+         MENU TOGGLE
+      ================================================ */
+      const hamBtn = document.getElementById('ham-btn');
+      const menuOverlay = document.getElementById('menu-overlay');
+      const menuClose = document.getElementById('menu-close');
+      const hl1 = document.getElementById('hl1');
+      const hl2 = document.getElementById('hl2');
+      const hl3 = document.getElementById('hl3');
+      const mLinks = document.querySelectorAll('[data-ml]');
+
+      gsap.set(mLinks, { y: '110%' });
+
+      const menuTl = gsap.timeline({ paused: true })
+        .to(menuOverlay, { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'power4.inOut' })
+        .to(mLinks, { y: '0%', stagger: 0.07, duration: 0.65, ease: 'power3.out' }, '-=0.35');
+
+      let menuOpen = false;
+      function openMenu() {
+        menuOpen = true;
+        menuOverlay.classList.add('is-open');
+        menuOverlay.setAttribute('aria-hidden', 'false');
+        hamBtn.setAttribute('aria-expanded', 'true');
+        menuTl.play();
+        gsap.to(hl1, { rotation: 45, y: 6.5, duration: 0.3 });
+        gsap.to(hl2, { autoAlpha: 0, duration: 0.15 });
+        gsap.to(hl3, { rotation: -45, y: -6.5, duration: 0.3 });
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        menuOpen = false;
+        menuTl.reverse();
+        hamBtn.setAttribute('aria-expanded', 'false');
+        gsap.to(hl1, { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(hl2, { autoAlpha: 1, duration: 0.2, delay: 0.1 });
+        gsap.to(hl3, { rotation: 0, y: 0, duration: 0.3 });
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          menuOverlay.classList.remove('is-open');
+          menuOverlay.setAttribute('aria-hidden', 'true');
+        }, 750);
+      }
+      hamBtn.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
+      menuClose.addEventListener('click', closeMenu);
+      mLinks.forEach(l => l.addEventListener('click', closeMenu));
+
+      /* ================================================
+         PRELOADER → PAGE ENTRY
+      ================================================ */
+      gsap.set(siteNav, { y: -80, autoAlpha: 0 });
+      gsap.set('#scroll-hint', { autoAlpha: 0 });
+      gsap.set('#hero-ctas', { y: 20 });
+
+      const intro = gsap.timeline({
+        onComplete: () => {
+          gsap.to('.hero-body', {
+            y: -60, autoAlpha: 0, ease: 'none',
+            scrollTrigger: { trigger: '#hero', start: 'center top', end: 'bottom top', scrub: true }
+          });
+        }
+      });
+
+      intro
+        .to('#pre-bar', { width: 180, duration: 1.1, ease: 'power2.inOut' })
+        .to('#preloader', { autoAlpha: 0, duration: 0.65, ease: 'power2.inOut' }, '+=0.25')
+        .set('#preloader', { display: 'none' })
+        .to(siteNav, { y: 0, autoAlpha: 1, duration: 0.8 }, '-=0.2')
+        .to('#hero-tag', { y: '0%', duration: 0.75 }, '-=0.4')
+        .to('#hl-a', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.4')
+        .to('#hl-b', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.78')
+        .to('#hl-c', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.78')
+        .to('#hero-ctas', { autoAlpha: 1, y: 0, duration: 0.7, ease: 'back.out(1.7)' }, '-=0.45')
+        .to('#scroll-hint', { autoAlpha: 1, duration: 0.5 }, '-=0.25');
+
+      /* ================================================
+         HERO PARALLAX
+      ================================================ */
+      gsap.to('#hero-parallax', {
+        yPercent: 22, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.8 }
+      });
+
+      /* ================================================
+         LOGOS TICKER
+      ================================================ */
+      (function initLogos() {
+        const track = document.getElementById('logos-track');
+        if (!track) return;
+        requestAnimationFrame(() => {
+          const singleW = track.scrollWidth / 3;
+          gsap.to(track, { x: -singleW, duration: 22, ease: 'none', repeat: -1 });
+        });
+      })();
+
+      /* ================================================
+         RESULTS SECTION TITLE
+      ================================================ */
+      ScrollTrigger.create({
+        trigger: '#results',
+        start: 'top 78%',
+        once: true,
+        onEnter: () => gsap.to('#rt-a', { y: '0%', duration: 0.9, ease: 'power4.out' })
+      });
+
+      /* ================================================
+         GALLERY — EXPAND ON HOVER
+      ================================================ */
+      (function initGallery() {
+        const strip = document.getElementById('gallery-strip');
+        if (!strip) return;
+        const items = strip.querySelectorAll('.gallery-item');
+
+        strip.addEventListener('mouseenter', () => {
+          // Activate first item by default on strip enter (only if none active)
+        });
+
+        items.forEach(item => {
+          item.addEventListener('mouseenter', () => {
+            items.forEach(i => {
+              if (i === item) {
+                i.classList.add('is-active');
+                i.classList.remove('is-shrunk');
+              } else {
+                i.classList.remove('is-active');
+                i.classList.add('is-shrunk');
+              }
+            });
+          });
+        });
+
+        strip.addEventListener('mouseleave', () => {
+          items.forEach(i => i.classList.remove('is-active', 'is-shrunk'));
+        });
+
+        // GSAP scroll reveal for gallery strip
+        ScrollTrigger.create({
+          trigger: '#results',
+          start: 'top 82%',
+          once: true,
+          onEnter: () => {
+            gsap.from(items, {
+              y: 60, autoAlpha: 0,
+              stagger: 0.07, duration: 0.9, ease: 'power3.out'
+            });
+          }
+        });
+      })();
+
+      /* ================================================
+         FIVE Cs SECTION (merged)
+      ================================================ */
+      gsap.set('#five-ghost', { scale: 0.82, autoAlpha: 0 });
+      gsap.set(['#fv-eyebrow', '#fv-rule'], { y: 18 });
+      gsap.set('#fv-headline', { y: 50 });
+      gsap.set(['#fv-divider', '#fv-p1', '#fv-p2', '#fv-cta'], { y: 30 });
+
+      ScrollTrigger.create({
+        trigger: '#five-cs',
+        start: 'top 68%', once: true,
+        onEnter: () => {
+          gsap.timeline()
+            .to('#five-ghost', { scale: 1, autoAlpha: 1, duration: 1.5, ease: 'power2.out' })
+            .to(['#fv-eyebrow', '#fv-rule'], { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.6 }, '-=1.1')
+            .to('#fv-headline', { autoAlpha: 1, y: 0, duration: 1.0, ease: 'power4.out' }, '-=0.7')
+            .to('#fv-divider', { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.4')
+            .to(['#fv-p1', '#fv-p2'], { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.8 }, '-=0.3')
+            .to('#fv-cta', { autoAlpha: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.3');
+        }
+      });
+
+      // Ghost text parallax
+      gsap.to('#five-ghost', {
+        y: -70, ease: 'none',
+        scrollTrigger: { trigger: '#five-cs', start: 'top bottom', end: 'bottom top', scrub: 2 }
+      });
+
+      /* ================================================
+         CTA SECTION
+      ================================================ */
+      gsap.set(['#cta-h', '#cta-p', '#cta-btns'], { y: 35 });
+      gsap.set(['#cta-label', '#cta-rule'], { y: 15 });
+      gsap.set('#cta-card', { y: 50 });
+
+      ScrollTrigger.create({
+        trigger: '#cta', start: 'top 72%', once: true,
+        onEnter: () => {
+          gsap.timeline()
+            .to('#cta-card', { y: 0, autoAlpha: 1, duration: 0.85 })
+            .to(['#cta-label', '#cta-rule'], { autoAlpha: 1, y: 0, stagger: 0.06, duration: 0.5 }, '-=0.45')
+            .to('#cta-h', { autoAlpha: 1, y: 0, duration: 0.75 }, '-=0.25')
+            .to('#cta-p', { autoAlpha: 1, y: 0, duration: 0.65 }, '-=0.3')
+            .to('#cta-btns', { autoAlpha: 1, y: 0, duration: 0.55, ease: 'back.out(1.7)' }, '-=0.2');
+        }
+      });
+
+      /* ================================================
+         FOOTER HOVER TEXT EFFECT
+      ================================================ */
+      const footerBig = document.getElementById('footer-big-text');
+      if (footerBig) {
+        footerBig.addEventListener('mousemove', e => {
+          const r = footerBig.getBoundingClientRect();
+          const cx = ((e.clientX - r.left) / r.width) * 100;
+          const cy = ((e.clientY - r.top) / r.height) * 100;
+          footerBig.style.setProperty('--cx', cx + '%');
+          footerBig.style.setProperty('--cy', cy + '%');
+        });
+      }
+
+      /* Footer reveal */
+      ScrollTrigger.create({
+        trigger: '#site-footer', start: 'top 90%', once: true,
+        onEnter: () => gsap.from('.footer-grid, .footer-hero-text-wrap', {
+          y: 30, autoAlpha: 0, stagger: 0.1, duration: 0.9
+        })
+      });
+
+      /* ================================================
+         MAGNETIC BUTTONS
+      ================================================ */
+      document.querySelectorAll('.mag').forEach(btn => {
+        btn.addEventListener('mousemove', e => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.28;
+          const y = (e.clientY - r.top - r.height / 2) * 0.28;
+          gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', () => {
+          gsap.to(btn, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.4)' });
+        });
+      });
+
+      /* ================================================
+         REFRESH AFTER LOAD
+      ================================================ */
+      window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    })();
+  </script>
+</body>
+
+</html>
