@@ -225,6 +225,21 @@
       transform-origin: center;
     }
 
+    .nav-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      align-items: flex-end;
+    }
+
+    .nav-sub-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #494456;
+    }
+
     /* ============================================================
        MENU OVERLAY
     ============================================================ */
@@ -981,6 +996,23 @@
       }
     }
 
+    .footer-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      margin-bottom: 1rem;
+      align-items: flex-end;
+      width: fit-content;
+    }
+
+    .footer-sub-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #242424;
+    }
+
     .footer-brand-logo {
       font-family: 'Epilogue', sans-serif;
       font-weight: 900;
@@ -990,7 +1022,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 1rem;
       display: block;
     }
 
@@ -1140,19 +1171,23 @@
   <div id="preloader">
     <div class="pre-logo">GLOBAL EVENTS</div>
     <div class="pre-bar" id="pre-bar"></div>
-    <div class="pre-sub">The Digital Auteur</div>
+    <div class="pre-sub">By The Trade Group</div>
   </div>
 
   <!-- ============================================================
        NAV
   ============================================================ -->
   <nav id="site-nav">
-    <a href="#" class="nav-logo-text">GLOBAL EVENTS</a>
-    <button class="ham-btn" id="ham-btn" aria-label="Open menu" aria-expanded="false">
-      <span class="ham-line" id="hl1"></span>
-      <span class="ham-line" id="hl2"></span>
-      <span class="ham-line" id="hl3"></span>
-    </button>
+    <div class="nav-left">
+      <a href="#" class="nav-logo-text">GLOBAL EVENTS</a>
+      <span class="nav-sub-text">By The Trade Group</span>
+    </div>
+    <div class="nav-right">
+      <button class="ham-btn" id="ham-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="ham-line" id="hl1"></span>
+        <span class="ham-line" id="hl2"></span>
+        <span class="ham-line" id="hl3"></span>
+      </button>
   </nav>
 
   <!-- ============================================================
@@ -1425,7 +1460,10 @@
 
       <!-- Brand col -->
       <div>
-        <span class="footer-brand-logo">GLOBAL EVENTS</span>
+        <div class="footer-logo-wrap">
+          <span class="footer-brand-logo">GLOBAL EVENTS</span>
+          <span class="nav-sub-text">By The Trade Group</span>
+        </div>
         <p class="footer-brand-desc">
           Cinematic event production crafted with precision, narrative, and relentless creative ambition.
         </p>
