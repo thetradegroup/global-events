@@ -13,9 +13,10 @@ The experience is defined by high-contrast transitions and a moderate level of w
 
 ### Palette Logic
 The color system is anchored in `neutral_color_hex` (#0D0D0D), providing a true dark-mode canvas that allows our high-chroma accents to vibrate. 
-- **Primary (`primary_color_hex`: #6200EA):** An ethereal Deep Purple used for high-level branding and primary CTAs.
-- **Secondary (`secondary_color_hex`: #00BFA5):** A Vibrant Teal designed to cut through the darkness, used for interaction cues and success states.
-- **Tertiary (`tertiary_color_hex`: #7C4DFF):** A supporting lavender for subtle differentiation in complex layouts.
+- **Primary (`primary_color_hex`: #daaa00):** A warm Golden Yellow used for high-level branding and primary CTAs.
+- **Secondary (`secondary_color_hex`: #71b2c9):** A sophisticated Steel Teal designed to cut through the darkness, used for interaction cues and success states.
+- **Tertiary (`tertiary_color_hex`: #ffffff):** Clean White for subtle differentiation, highlights, and contrast in complex layouts.
+- **Logo:** "GLOBAL EVENTS" wordmark is always rendered in solid `#ffffff`.
 
 ### The "No-Line" Rule
 **Explicit Instruction:** 1px solid borders are strictly prohibited for sectioning or card definition. Structural boundaries must be defined solely through background color shifts. For example, a `surface-container-low` card sitting on a `surface` background creates a sophisticated, borderless edge that feels modern and integrated.
@@ -28,7 +29,7 @@ Treat the UI as physical layers of smoked glass.
 
 ### Signature Textures
 To avoid a flat "template" look, use a subtle linear gradient on main CTAs and Hero headers:
-- **Primary Gradient:** Transition from `primary` (#6200EA) to `primary_container` (#6200ea) at a 135-degree angle. This adds a "soul" to the color that flat hex codes cannot replicate.
+- **Primary Gradient:** Transition from `primary` (#daaa00) to `tertiary` (#ffffff) at a 135-degree angle. This adds a "soul" to the color that flat hex codes cannot replicate.
 
 ---
 
@@ -63,7 +64,7 @@ Floating elements should leverage `backdrop-blur` (12px to 20px) combined with a
 ### Buttons
 - **Primary:** Filled with the Primary Gradient. `Roundedness: 1` (subtle roundedness). Text: `label-md` uppercase, bold.
 - **Secondary:** Ghost style. No background, but use a "Ghost Border" (20% opacity `outline_variant`).
-- **Interaction:** On hover, primary buttons should exhibit a subtle glow (Box-shadow using `secondary` color at 15% opacity).
+- **Interaction:** On hover, primary buttons should exhibit a subtle glow (Box-shadow using `secondary` (#71b2c9) at 15% opacity).
 
 ### Cards & Lists
 - **Prohibition:** Do not use divider lines.
@@ -72,11 +73,11 @@ Floating elements should leverage `backdrop-blur` (12px to 20px) combined with a
 
 ### Chips & Tags
 - Use `full` roundedness (pill shape). 
-- Background: `surface_container_high`. Text: `secondary` (#00BFA5).
+- Background: `surface_container_high`. Text: `secondary` (#71b2c9).
 
 ### Input Fields
 - **State:** Unfocused inputs use `surface_container_highest` with no border. 
-- **Focus State:** Transition to a 1px "Ghost Border" using the `secondary` Teal at 50% opacity.
+- **Focus State:** Transition to a 1px "Ghost Border" using the `secondary` (#71b2c9) Teal at 50% opacity.
 
 ---
 
@@ -85,7 +86,7 @@ Floating elements should leverage `backdrop-blur` (12px to 20px) combined with a
 ### Do:
 - **Use Intentional Asymmetry:** Offset images and text blocks. Let a headline hang over the edge of a container.
 - **Embrace the Dark:** Use the `surface-container-lowest` (#0e0e0e) for the footer to "ground" the page.
-- **Leverage High Contrast:** Ensure `secondary` Teal is used for the most critical user actions to guide the eye instantly.
+- **Leverage High Contrast:** Ensure `secondary` (#71b2c9) Teal is used for the most critical user actions to guide the eye instantly.
 
 ### Don't:
 - **Don't use 100% Opaque Borders:** This creates a "cheap" grid-like feel that destroys the cinematic atmosphere.
