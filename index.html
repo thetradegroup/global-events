@@ -770,14 +770,166 @@
     }
 
     /* ============================================================
+       FLEXIBLE BY DESIGN SECTION
+    ============================================================ */
+    #flexible-by-design {
+      background: #080808;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(5rem, 9vw, 11rem) clamp(2rem, 6vw, 8rem);
+    }
+
+    .fbd-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/flexible-by-design-section-bg.jpg') 60% center / cover no-repeat;
+      pointer-events: none;
+    }
+
+    .fbd-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .fbd-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-bottom: clamp(1rem, 2vw, 2.5rem);
+    }
+
+    .fbd-line-wrap {
+      display: block;
+      overflow: hidden;
+      line-height: 1;
+    }
+
+    .fbd-line {
+      display: block;
+    }
+
+    .fbd-h2 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
+
+    /* Gradient applied directly to each line so GSAP transforms don't break it */
+    .fbd-h2 .fbd-line-wrap:first-child .fbd-line {
+      background: linear-gradient(to bottom, #daaa00 20%, #c8a000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .fbd-h2 .fbd-line-wrap:last-child .fbd-line {
+      background: linear-gradient(to bottom, #b89600 0%, #ffffff 85%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .fbd-taglines {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      gap: 0.35rem;
+      flex-shrink: 0;
+      max-width: 46%;
+      padding-bottom: 0.5rem;
+    }
+
+    .fbd-h3-1 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1rem, 1.9vw, 2.3rem);
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.12;
+      letter-spacing: 0.03em;
+    }
+
+    .fbd-h3-2 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.1rem, 2.2vw, 2.65rem);
+      color: #daaa00;
+      text-transform: uppercase;
+      line-height: 1.12;
+      letter-spacing: 0.03em;
+    }
+
+    .fbd-h3-3-wrap {
+      overflow: hidden;
+      margin-bottom: clamp(2.5rem, 5vw, 7rem);
+    }
+
+    .fbd-h3-3 {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.6rem, 0.82vw, 0.98rem);
+      color: #71b2c9;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+    }
+
+    .fbd-lists-outer {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .fbd-lists-inner {
+      display: flex;
+      will-change: transform;
+    }
+
+    .fbd-list-slot {
+      flex: 0 0 50%;
+      position: relative;
+    }
+
+    .fbd-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .fbd-list li {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3.6vw, 4.5rem);
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1.06;
+      letter-spacing: 0.01em;
+      padding: 0.04em 0;
+      white-space: nowrap;
+    }
+
+    .fbd-list-two-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 6%, #080808 42%);
+      pointer-events: none;
+    }
+
+    /* ============================================================
        FIVE Cs — MERGED SECTION (content + vision design)
     ============================================================ */
     #five-cs {
+      display: none;
       background: #0e0e0e;
       overflow: hidden;
       position: relative;
       padding: 10rem clamp(1.5rem, 6vw, 6rem);
-      display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
@@ -1392,6 +1544,59 @@
       </div>
     </section>
 
+    <!-- ========== FLEXIBLE BY DESIGN ========== -->
+    <section id="flexible-by-design">
+      <div class="fbd-bg"></div>
+      <div class="fbd-inner">
+
+        <div class="fbd-top-row">
+          <h2 class="fbd-h2" id="fbd-h2">
+            <span class="fbd-line-wrap"><span class="fbd-line">Flexible</span></span>
+            <span class="fbd-line-wrap"><span class="fbd-line">by Design</span></span>
+          </h2>
+          <div class="fbd-taglines">
+            <h3 class="fbd-h3-1" id="fbd-h3-1">
+              <span class="fbd-line-wrap"><span class="fbd-line">TURN-KEY EXECUTION</span></span>
+              <span class="fbd-line-wrap"><span class="fbd-line">WHEN YOU NEED IT.</span></span>
+            </h3>
+            <h3 class="fbd-h3-2" id="fbd-h3-2">
+              <span class="fbd-line-wrap"><span class="fbd-line">PLUG-IN WHEN</span></span>
+              <span class="fbd-line-wrap"><span class="fbd-line">YOU DON'T.</span></span>
+            </h3>
+          </div>
+        </div>
+
+        <div class="fbd-h3-3-wrap">
+          <h3 class="fbd-h3-3" id="fbd-h3-3">SINGLE PARTNER SOLUTION.</h3>
+        </div>
+
+        <div class="fbd-lists-outer" id="fbd-lists-outer">
+          <div class="fbd-lists-inner" id="fbd-lists-inner">
+            <div class="fbd-list-slot" id="fbd-slot-one">
+              <ul class="fbd-list fbd-list-one" id="fbd-list-one">
+                <li>CONCEPTING</li>
+                <li>DESIGN</li>
+                <li>SITE SELECTION</li>
+                <li>ENGINEERING</li>
+                <li>EVENT JOURNEY</li>
+              </ul>
+            </div>
+            <div class="fbd-list-slot" id="fbd-slot-two">
+              <ul class="fbd-list fbd-list-two" id="fbd-list-two">
+                <li>FABRICATION</li>
+                <li>LOGISTICS</li>
+                <li>RUN OF SHOW</li>
+                <li>TECHNICAL DIRECTION</li>
+                <li>INSTALLATION</li>
+              </ul>
+              <div class="fbd-list-two-veil" id="fbd-list-two-veil"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- ========== FIVE Cs (merged with vision design) ========== -->
     <section id="five-cs">
       <div class="five-ghost" id="five-ghost">FIVE CS</div>
@@ -1763,6 +1968,103 @@
           }
         });
       })();
+
+      /* ================================================
+         FLEXIBLE BY DESIGN SECTION
+      ================================================ */
+
+      // ── Initial hidden states ─────────────────────────
+      gsap.set('#fbd-h2 .fbd-line', { yPercent: 115 });
+      gsap.set('#fbd-h3-1 .fbd-line', { yPercent: 115 });
+      gsap.set('#fbd-h3-2 .fbd-line', { yPercent: 115 });
+      gsap.set('#fbd-h3-3', { xPercent: -110 });
+      gsap.set('#fbd-slot-one', { yPercent: 100 });
+      gsap.set('#fbd-slot-two', { yPercent: 100, opacity: 0 });
+
+      // ── Entrance sequence ─────────────────────────────
+      const fbdEnter = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#flexible-by-design',
+          start: 'top 62%',
+          once: true
+        }
+      });
+
+      fbdEnter
+        // H2 – each line rises from below its own bottom edge
+        .to('#fbd-h2 .fbd-line', {
+          yPercent: 0,
+          stagger: 0.18,
+          duration: 1.05,
+          ease: 'power4.out'
+        })
+        // H3 (1) – same up-reveal, triggers after H2 finishes
+        .to('#fbd-h3-1 .fbd-line', {
+          yPercent: 0,
+          stagger: 0.1,
+          duration: 0.78,
+          ease: 'power3.out'
+        }, '+=0.05')
+        // H3 (2) – same
+        .to('#fbd-h3-2 .fbd-line', {
+          yPercent: 0,
+          stagger: 0.1,
+          duration: 0.78,
+          ease: 'power3.out'
+        }, '+=0.05')
+        // H3 (3) – slides in from left (wrapper overflow: hidden clips it)
+        .to('#fbd-h3-3', {
+          xPercent: 0,
+          duration: 0.75,
+          ease: 'power3.out'
+        }, '+=0.08')
+        // List 1 – whole slot rises at once
+        .to('#fbd-slot-one', {
+          yPercent: 0,
+          duration: 0.88,
+          ease: 'power3.out'
+        }, '+=0.1')
+        // List 2 – same entrance, dim opacity (veil covers most text)
+        .to('#fbd-slot-two', {
+          yPercent: 0,
+          opacity: 0.1,
+          duration: 0.88,
+          ease: 'power3.out'
+        }, '+=0.1');
+
+      // ── List scroll transition (pin + scrub) ──────────
+      const listShiftTl = gsap.timeline();
+      listShiftTl
+        // Slide both lists left so List 2 takes List 1's place
+        .to('#fbd-lists-inner', {
+          x: () => -document.getElementById('fbd-slot-one').offsetWidth,
+          ease: 'none'
+        }, 0)
+        // List 2: gain full opacity + reveal through veil
+        .to('#fbd-slot-two', {
+          opacity: 1,
+          ease: 'none'
+        }, 0)
+        .to('#fbd-list-two-veil', {
+          opacity: 0,
+          ease: 'none'
+        }, 0)
+        // List 1: dim as it exits (mirrors List 2's initial state)
+        .to('#fbd-list-one', {
+          opacity: 0.1,
+          ease: 'none'
+        }, 0);
+
+      // Pin starts when the section's bottom reaches the viewport bottom —
+      // meaning the full section (and both lists) are visible before the transition begins
+      ScrollTrigger.create({
+        trigger: '#flexible-by-design',
+        start: 'bottom bottom',
+        end: '+=800',
+        pin: true,
+        scrub: 1.5,
+        animation: listShiftTl
+      });
 
       /* ================================================
          FIVE Cs SECTION (merged)
