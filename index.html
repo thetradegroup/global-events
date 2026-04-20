@@ -13,6 +13,7 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet">
+  <script src="https://js.hsforms.net/forms/embed/developer/20503845.js" defer></script>
 
   <style>
     /* ============================================================
@@ -1291,6 +1292,78 @@
     .gsap-hide {
       opacity: 0;
     }
+
+    /* ============================================================
+       CONTACT POPUP
+    ============================================================ */
+    #contact-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 50000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    #contact-popup.is-open {
+      pointer-events: all;
+      visibility: visible;
+    }
+
+    #popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    #popup-card {
+      position: relative;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 6px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(24px);
+      z-index: 1;
+    }
+
+    #popup-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #131313;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      line-height: 1;
+      transition: opacity 0.2s;
+    }
+
+    #popup-close:hover { opacity: 0.45; }
+
+    .popup-title {
+      font-family: 'Epilogue', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .popup-title span { display: block; }
+    .popup-title span:first-child { color: #daaa00; }
+    .popup-title span:last-child  { color: #131313; }
   </style>
 </head>
 
@@ -1344,11 +1417,11 @@
       <div class="menu-link-wrap"><a href="#five-cs" class="menu-link" data-ml>Five Cs</a></div>
       <div class="menu-link-wrap"><a href="#results" class="menu-link" data-ml>Results</a></div>
       <div class="menu-link-wrap"><a href="#five-cs" class="menu-link" data-ml>Why Global Events</a></div>
-      <div class="menu-link-wrap"><a href="#cta" class="menu-link" data-ml>Get in Touch</a></div>
+      <div class="menu-link-wrap"><a href="#cta" class="menu-link" data-ml id="menu-git">Get in Touch</a></div>
     </nav>
 
     <div style="margin-top: 3.5rem">
-      <button class="btn-teal">Book a Consultation</button>
+      <button class="btn-teal" id="menu-book">Book a Consultation</button>
     </div>
 
     <div class="menu-footer">The Digital Auteur Strategy &nbsp;·&nbsp; Est. 2019</div>
@@ -1381,7 +1454,7 @@
 
         <div class="hero-cta-row gsap-hide" id="hero-ctas">
           <button class="btn-teal mag">See our work</button>
-          <button class="btn-outline mag">Start a project</button>
+          <button class="btn-outline mag" id="hero-start">Start a project</button>
         </div>
       </div>
 
@@ -1645,7 +1718,7 @@
           From intimate summits to global spectacles, let's build a narrative that lasts long after the lights go out.
         </p>
         <div style="margin-top:3rem" class="gsap-hide" id="cta-btns">
-          <button class="btn-teal mag">Get in touch</button>
+          <button class="btn-teal mag" id="cta-git">Get in touch</button>
         </div>
       </div>
     </section>
@@ -1737,7 +1810,7 @@
           Grapevine, TX
         </a>
         <div style="margin-top:1.5rem">
-          <button class="btn-teal" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in Touch</button>
+          <button class="btn-teal" id="footer-git" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in Touch</button>
         </div>
       </div>
 
@@ -1761,6 +1834,25 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
+
+  <!-- ========== CONTACT POPUP ========== -->
+  <div id="contact-popup">
+    <div id="popup-overlay"></div>
+    <div id="popup-card">
+      <button id="popup-close" aria-label="Close form">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <h2 class="popup-title">
+        <span>Flexible</span>
+        <span>by Design</span>
+      </h2>
+      <div class="hs-form-html"
+           data-region="na1"
+           data-form-id="58e6860d-007e-4c5d-a477-1ab6392f6653"
+           data-portal-id="20503845">
+      </div>
+    </div>
+  </div>
 
   <script>
     (() => {
@@ -2114,6 +2206,56 @@
          REFRESH AFTER LOAD
       ================================================ */
       window.addEventListener('load', () => ScrollTrigger.refresh());
+
+      /* ================================================
+         CONTACT POPUP
+      ================================================ */
+      (function initPopup() {
+        const popup    = document.getElementById('contact-popup');
+        const overlay  = document.getElementById('popup-overlay');
+        const card     = document.getElementById('popup-card');
+        const closeBtn = document.getElementById('popup-close');
+
+        function openPopup() {
+          popup.classList.add('is-open');
+          gsap.to(overlay, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+          gsap.fromTo(card,
+            { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 }
+          );
+        }
+
+        function closePopup() {
+          gsap.to(card, { opacity: 0, y: 16, duration: 0.28, ease: 'power2.in' });
+          gsap.to(overlay, {
+            opacity: 0, duration: 0.35, ease: 'power2.in', delay: 0.05,
+            onComplete: () => popup.classList.remove('is-open')
+          });
+        }
+
+        // Close triggers
+        closeBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', closePopup);
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') closePopup();
+        });
+
+        // Menu triggers — close the nav overlay first, then open popup
+        document.getElementById('menu-git').addEventListener('click', e => {
+          e.preventDefault();
+          closeMenu();
+          setTimeout(openPopup, 400);
+        });
+        document.getElementById('menu-book').addEventListener('click', () => {
+          closeMenu();
+          setTimeout(openPopup, 400);
+        });
+
+        // Direct triggers
+        document.getElementById('hero-start').addEventListener('click', openPopup);
+        document.getElementById('cta-git').addEventListener('click', openPopup);
+        document.getElementById('footer-git').addEventListener('click', openPopup);
+      })();
 
     })();
   </script>
