@@ -887,7 +887,6 @@
 
     .fbd-lists-inner {
       display: flex;
-      will-change: transform;
     }
 
     .fbd-list-slot {
@@ -914,12 +913,6 @@
       white-space: nowrap;
     }
 
-    .fbd-list-two-veil {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, transparent 6%, #080808 42%);
-      pointer-events: none;
-    }
 
     /* ============================================================
        FIVE Cs — MERGED SECTION (content + vision design)
@@ -2024,47 +2017,14 @@
           duration: 0.88,
           ease: 'power3.out'
         }, '+=0.1')
-        // List 2 – same entrance, dim opacity (veil covers most text)
+        // List 2 – same entrance
         .to('#fbd-slot-two', {
           yPercent: 0,
-          opacity: 0.1,
+          opacity: 1,
           duration: 0.88,
           ease: 'power3.out'
         }, '+=0.1');
 
-      // ── List scroll transition (pin + scrub) ──────────
-      const listShiftTl = gsap.timeline();
-      listShiftTl
-        // Slide both lists left so List 2 takes List 1's place
-        .to('#fbd-lists-inner', {
-          x: () => -document.getElementById('fbd-slot-one').offsetWidth,
-          ease: 'none'
-        }, 0)
-        // List 2: gain full opacity + reveal through veil
-        .to('#fbd-slot-two', {
-          opacity: 1,
-          ease: 'none'
-        }, 0)
-        .to('#fbd-list-two-veil', {
-          opacity: 0,
-          ease: 'none'
-        }, 0)
-        // List 1: dim as it exits (mirrors List 2's initial state)
-        .to('#fbd-list-one', {
-          opacity: 0.1,
-          ease: 'none'
-        }, 0);
-
-      // Pin starts when the section's bottom reaches the viewport bottom —
-      // meaning the full section (and both lists) are visible before the transition begins
-      ScrollTrigger.create({
-        trigger: '#flexible-by-design',
-        start: 'bottom bottom',
-        end: '+=800',
-        pin: true,
-        scrub: 1.5,
-        animation: listShiftTl
-      });
 
       /* ================================================
          FIVE Cs SECTION (merged)
