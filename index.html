@@ -1350,7 +1350,9 @@
       transition: opacity 0.2s;
     }
 
-    #popup-close:hover { opacity: 0.45; }
+    #popup-close:hover {
+      opacity: 0.45;
+    }
 
     .popup-title {
       font-family: 'Epilogue', sans-serif;
@@ -1361,9 +1363,17 @@
       margin-bottom: 2rem;
     }
 
-    .popup-title span { display: block; }
-    .popup-title span:first-child { color: #daaa00; }
-    .popup-title span:last-child  { color: #131313; }
+    .popup-title span {
+      display: block;
+    }
+
+    .popup-title span:first-child {
+      color: #daaa00;
+    }
+
+    .popup-title span:last-child {
+      color: #131313;
+    }
   </style>
 </head>
 
@@ -1541,13 +1551,13 @@
 
         <!-- Bitcoin -->
         <div class="gallery-item" data-index="1">
-          <img src="images/Case%20Studies/bitcoin.jpg" alt="Bitcoin World Forum" loading="lazy">
+          <img src="images/Case%20Studies/bitcoin.jpg" alt="Bitcoin Miami" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">02</span>
             <div class="gallery-text">
               <p class="gallery-tag">Finance &amp; Innovation</p>
-              <h3 class="gallery-title">Bitcoin World Forum</h3>
+              <h3 class="gallery-title">Bitcoin Miami</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
@@ -1558,13 +1568,13 @@
 
         <!-- DR Horton -->
         <div class="gallery-item" data-index="2">
-          <img src="images/Case%20Studies/dr-horton.jpg" alt="D.R. Horton Annual Gala" loading="lazy">
+          <img src="images/Case%20Studies/dr-horton.jpg" alt="D.R. Horton" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">03</span>
             <div class="gallery-text">
               <p class="gallery-tag">Corporate Experience</p>
-              <h3 class="gallery-title">D.R. Horton Annual Gala</h3>
+              <h3 class="gallery-title">D.R. Horton</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
@@ -1575,13 +1585,13 @@
 
         <!-- Pokemon -->
         <div class="gallery-item" data-index="3">
-          <img src="images/Case%20Studies/pokemon.jpg" alt="Pokémon World Championship" loading="lazy">
+          <img src="images/Case%20Studies/pokemon.jpg" alt="Pokémon Japan" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">04</span>
             <div class="gallery-text">
               <p class="gallery-tag">Immersive Entertainment</p>
-              <h3 class="gallery-title">Pokémon World Championship</h3>
+              <h3 class="gallery-title">Pokémon Japan</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
@@ -1592,13 +1602,13 @@
 
         <!-- Ubisoft -->
         <div class="gallery-item" data-index="4">
-          <img src="images/Case%20Studies/ubisoft.jpg" alt="Ubisoft Forward" loading="lazy">
+          <img src="images/Case%20Studies/ubisoft.jpg" alt="Ubisoft" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">05</span>
             <div class="gallery-text">
               <p class="gallery-tag">Gaming &amp; Culture</p>
-              <h3 class="gallery-title">Ubisoft Forward</h3>
+              <h3 class="gallery-title">Ubisoft</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
@@ -1810,7 +1820,8 @@
           Grapevine, TX
         </a>
         <div style="margin-top:1.5rem">
-          <button class="btn-teal" id="footer-git" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in Touch</button>
+          <button class="btn-teal" id="footer-git" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in
+            Touch</button>
         </div>
       </div>
 
@@ -1846,10 +1857,8 @@
         <span>Flexible</span>
         <span>by Design</span>
       </h2>
-      <div class="hs-form-html"
-           data-region="na1"
-           data-form-id="58e6860d-007e-4c5d-a477-1ab6392f6653"
-           data-portal-id="20503845">
+      <div class="hs-form-html" data-region="na1" data-form-id="58e6860d-007e-4c5d-a477-1ab6392f6653"
+        data-portal-id="20503845">
       </div>
     </div>
   </div>
@@ -2211,9 +2220,9 @@
          CONTACT POPUP
       ================================================ */
       (function initPopup() {
-        const popup    = document.getElementById('contact-popup');
-        const overlay  = document.getElementById('popup-overlay');
-        const card     = document.getElementById('popup-card');
+        const popup = document.getElementById('contact-popup');
+        const overlay = document.getElementById('popup-overlay');
+        const card = document.getElementById('popup-card');
         const closeBtn = document.getElementById('popup-close');
 
         function openPopup() {
