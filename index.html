@@ -905,13 +905,27 @@
     .fbd-list li {
       font-family: 'Manrope', sans-serif;
       font-weight: 400;
-      font-size: clamp(1.3rem, 3vw, 3.8rem);
+      font-size: clamp(1rem, 2.2vw, 2.8rem);
       text-transform: uppercase;
       color: #ffffff;
-      line-height: 1.06;
+      line-height: 1.15;
       letter-spacing: 0.01em;
-      padding: 0.04em 0;
-      white-space: nowrap;
+      padding: 0.08em 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45em;
+    }
+
+    /* Custom bullet: mimics the site cursor (yellow ring + solid yellow dot) */
+    .fbd-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 0.38em;
+      height: 0.38em;
+      border-radius: 50%;
+      border: 1.5px solid rgba(218, 170, 0, 0.55);
+      background: radial-gradient(circle, #daaa00 30%, transparent 30%);
+      margin-top: 0.37em;
     }
 
 
@@ -1632,12 +1646,11 @@
           </h2>
           <div class="fbd-taglines">
             <h3 class="fbd-h3-1" id="fbd-h3-1">
-              <span class="fbd-line-wrap"><span class="fbd-line">TURN-KEY EXECUTION</span></span>
-              <span class="fbd-line-wrap"><span class="fbd-line">WHEN YOU NEED IT.</span></span>
+              <span class="fbd-line-wrap"><span class="fbd-line">TURNKEY EXECUTION.</span></span>
             </h3>
             <h3 class="fbd-h3-2" id="fbd-h3-2">
-              <span class="fbd-line-wrap"><span class="fbd-line">PLUG-IN WHEN</span></span>
-              <span class="fbd-line-wrap"><span class="fbd-line">YOU DON'T.</span></span>
+              <span class="fbd-line-wrap"><span class="fbd-line">PLUG-IN SUPPORT</span></span>
+              <span class="fbd-line-wrap"><span class="fbd-line">WHEN YOU NEED IT.</span></span>
             </h3>
           </div>
         </div>
@@ -1650,20 +1663,20 @@
           <div class="fbd-lists-inner" id="fbd-lists-inner">
             <div class="fbd-list-slot" id="fbd-slot-one">
               <ul class="fbd-list fbd-list-one" id="fbd-list-one">
-                <li>CONCEPTING</li>
-                <li>DESIGN</li>
-                <li>SITE SELECTION</li>
-                <li>ENGINEERING</li>
-                <li>EVENT JOURNEY</li>
+                <li>Venue Research</li>
+                <li>Event Design</li>
+                <li>Fabrication & Rental</li>
+                <li>Registration & Housing Management</li>
+                <li>AV & Lighting</li>
               </ul>
             </div>
             <div class="fbd-list-slot" id="fbd-slot-two">
               <ul class="fbd-list fbd-list-two" id="fbd-list-two">
-                <li>FABRICATION</li>
-                <li>LOGISTICS</li>
-                <li>RUN OF SHOW</li>
-                <li>TECHNICAL DIRECTION</li>
-                <li>INSTALLATION</li>
+                <li>Sponsorship & Exhibitor Services</li>
+                <li>Labor Management</li>
+                <li>Broadcast & Production</li>
+                <li>Talent Management</li>
+                <li>Analytics</li>
               </ul>
               <div class="fbd-list-two-veil" id="fbd-list-two-veil"></div>
             </div>
