@@ -630,6 +630,8 @@
       position: relative;
       cursor: pointer;
       transition: flex 0.72s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: block;
     }
 
     .gallery-item.is-active {
@@ -737,6 +739,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(218, 170, 0, 0.55);
+      text-decoration: none;
     }
 
     .gallery-arrow .material-symbols-outlined {
@@ -1521,7 +1524,7 @@
         </h1>
 
         <div class="hero-cta-row gsap-hide" id="hero-ctas">
-          <button class="btn-teal mag">See our work</button>
+          <a href="#results"><button class="btn-teal mag">See our work</button></a>
           <button class="btn-outline mag" id="hero-start">Start a project</button>
         </div>
       </div>
@@ -1590,25 +1593,25 @@
 
       <div class="gallery-strip" id="gallery-strip">
 
-        <!-- AMD -->
-        <div class="gallery-item" data-index="0">
-          <img src="images/Case%20Studies/amd.jpg" alt="AMD Launch Summit" loading="lazy">
+        <!-- Dreamhack -->
+        <a class="gallery-item" data-index="0" href="https://www.tradegroup.com/case-studies/dreamhack" target="_blank" rel="noopener noreferrer">
+          <img src="images/Case%20Studies/dreamhawk.jpg" alt="Dreamhack" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">01</span>
             <div class="gallery-text">
-              <p class="gallery-tag">Tech Experience</p>
-              <h3 class="gallery-title">AMD Launch Summit</h3>
+              <p class="gallery-tag">Gaming &amp; Culture</p>
+              <h3 class="gallery-title">Dreamhack</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
               </span>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- Bitcoin -->
-        <div class="gallery-item" data-index="1">
+        <a class="gallery-item" data-index="1" href="https://www.tradegroup.com/case-studies/bitcoin-miami" target="_blank" rel="noopener noreferrer">
           <img src="images/Case%20Studies/bitcoin.jpg" alt="Bitcoin Miami" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
@@ -1622,10 +1625,10 @@
               </span>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- DR Horton -->
-        <div class="gallery-item" data-index="2">
+        <a class="gallery-item" data-index="2" href="https://www.tradegroup.com/case-studies/dr-horton" target="_blank" rel="noopener noreferrer">
           <img src="images/Case%20Studies/dr-horton.jpg" alt="D.R. Horton" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
@@ -1639,10 +1642,10 @@
               </span>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- Pokemon -->
-        <div class="gallery-item" data-index="3">
+        <a class="gallery-item" data-index="3" href="https://www.tradegroup.com/case-studies/pokemon-japan" target="_blank" rel="noopener noreferrer">
           <img src="images/Case%20Studies/pokemon.jpg" alt="Pokémon Japan" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
@@ -1656,10 +1659,10 @@
               </span>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- Ubisoft -->
-        <div class="gallery-item" data-index="4">
+        <a class="gallery-item" data-index="4" href="https://www.tradegroup.com/case-studies/pokemon-japan" target="_blank" rel="noopener noreferrer">
           <img src="images/Case%20Studies/ubisoft.jpg" alt="Ubisoft" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
@@ -1673,7 +1676,7 @@
               </span>
             </div>
           </div>
-        </div>
+        </a>
 
       </div>
     </section>
