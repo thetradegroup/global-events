@@ -845,9 +845,10 @@
       <!-- Contact col -->
       <div>
         <p class="footer-col-label">Contact</p>
-        <a href="mailto:info@tradegroup.com" class="footer-link">
+        <!-- Email is assembled by script at load so it isn't in the HTML for scrapers -->
+        <a href="#" class="footer-link js-email" data-u="ofni" data-d="moc.puorgedart">
           <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">alternate_email</span>
-          info@tradegroup.com
+          <span class="js-email-text">Email us</span>
         </a>
         <a href="tel:+12125550100" class="footer-link">
           <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">call</span>
@@ -1084,6 +1085,16 @@
         document.getElementById('footer-git').addEventListener('click', openPopup);
       })();
     })();
+  </script>
+  <script>
+    /* Email obfuscation: rebuild the address from reversed parts at runtime */
+    document.querySelectorAll('.js-email').forEach(function (el) {
+      var rev = function (s) { return s.split('').reverse().join(''); };
+      var addr = rev(el.dataset.u) + String.fromCharCode(64) + rev(el.dataset.d);
+      el.href = 'mai' + 'lto:' + addr;
+      var t = el.querySelector('.js-email-text');
+      if (t) t.textContent = addr;
+    });
   </script>
 </body>
 

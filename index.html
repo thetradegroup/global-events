@@ -28,7 +28,6 @@
           "@type": "ContactPoint",
           "telephone": "+1-800-343-2005",
           "contactType": "customer service",
-          "email": "info@tradegroup.com",
           "areaServed": "US"
         },
         "address": {
@@ -271,26 +270,64 @@
       letter-spacing: -0.04em;
       color: #ffffff;
       text-decoration: none;
+      white-space: nowrap;
     }
 
-    .ham-btn {
+    /* Top nav links (replaces hamburger menu) */
+    .nav-links {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 8px;
-      cursor: pointer;
-      position: relative;
-      z-index: 6000;
-      background: none;
-      border: none;
+      align-items: center;
+      gap: clamp(1.2rem, 3vw, 2.6rem);
     }
 
-    .ham-line {
-      width: 24px;
-      height: 1.5px;
-      background: #daaa00;
-      display: block;
-      transform-origin: center;
+    .nav-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #e5e2e1;
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .nav-link:hover {
+      color: #daaa00;
+    }
+
+    .nav-link.nav-contact {
+      border: 1px solid #71b2c9;
+      border-radius: 3px;
+      padding: 0.75rem 1.4rem;
+      color: #71b2c9;
+      transition: color 0.25s, background 0.25s;
+    }
+
+    .nav-link.nav-contact:hover {
+      background: #71b2c9;
+      color: #00382f;
+    }
+
+    @media (max-width: 560px) {
+      .nav-links {
+        gap: 0.9rem;
+      }
+
+      .nav-link {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+      }
+
+      .nav-link.nav-contact {
+        padding: 0.6rem 0.9rem;
+      }
+    }
+
+    /* Keep anchored sections clear of the fixed nav */
+    #results,
+    #flexible-by-design,
+    #cta {
+      scroll-margin-top: 80px;
     }
 
     .nav-left {
@@ -982,7 +1019,7 @@
       font-family: 'Manrope', sans-serif;
       font-weight: 400;
       font-size: clamp(1rem, 2.2vw, 2.8rem);
-      text-transform: uppercase;
+      text-transform: none;
       color: #ffffff;
       line-height: 1.15;
       letter-spacing: 0.01em;
@@ -1151,60 +1188,70 @@
       padding: 8rem clamp(1.5rem, 5vw, 4rem);
     }
 
-    .cta-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 70%;
-      aspect-ratio: 1;
-      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cta-card {
+    .cta-grid {
       position: relative;
       z-index: 2;
-      max-width: 900px;
+      max-width: 1240px;
       margin: 0 auto;
-      background: #1c1b1b;
-      border-radius: 20px;
-      padding: clamp(3rem, 6vw, 6rem);
-      text-align: center;
-      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(2.5rem, 6vw, 6rem);
+      align-items: start;
     }
 
-    .cta-top-line {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(218, 170, 0, 0.25), transparent);
+    @media (max-width: 900px) {
+      .cta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* On mobile, show the intro copy before the form */
+      .cta-info {
+        order: -1;
+      }
     }
 
+    /* Left: form card (same look as the former popup) */
+    .cta-form-card {
+      background: #ffffff;
+      border-radius: 6px;
+      padding: clamp(1.75rem, 4vw, 3rem);
+      color: #131313;
+      cursor: auto;
+    }
+
+    /* Right: intro copy + photo */
     .cta-headline {
       font-family: 'Epilogue', sans-serif;
       font-weight: 900;
-      font-size: clamp(2.2rem, 5vw, 4.2rem);
-      line-height: 0.92;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      line-height: 0.95;
       letter-spacing: -0.04em;
       color: #e5e2e1;
     }
 
-    .cta-headline .highlight {
-      color: #71b2c9;
-      font-style: italic;
-    }
-
     .cta-sub {
       font-family: 'Manrope', sans-serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: #939598;
       line-height: 1.7;
       max-width: 540px;
-      margin: 1.5rem auto 0;
+      margin-top: 1.5rem;
+    }
+
+    .cta-photo {
+      margin-top: 2.5rem;
+      width: 80%;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+      background: #1c1b1b;
+    }
+
+    .cta-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* ============================================================
@@ -1253,7 +1300,7 @@
     /* ---- Footer grid ---- */
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 4rem;
       padding: 4rem clamp(1.5rem, 6vw, 6rem);
       border-top: 1px solid #161616;
@@ -1537,39 +1584,13 @@
       <span class="nav-sub-text">By The Trade Group</span>
     </div>
     <div class="nav-right">
-      <button class="ham-btn" id="ham-btn" aria-label="Open menu" aria-expanded="false">
-        <span class="ham-line" id="hl1"></span>
-        <span class="ham-line" id="hl2"></span>
-        <span class="ham-line" id="hl3"></span>
-      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#flexible-by-design" class="nav-link">Services</a>
+        <a href="#results" class="nav-link">Results</a>
+        <a href="#cta" class="nav-link nav-contact">Contact</a>
+      </nav>
+    </div>
   </nav>
-
-  <!-- ============================================================
-       MENU OVERLAY
-  ============================================================ -->
-  <div id="menu-overlay" aria-hidden="true" role="dialog">
-    <button class="menu-close-btn" id="menu-close">
-      <span class="material-symbols-outlined" style="font-size:1rem">close</span>
-      Close
-    </button>
-
-    <div>
-      <p class="menu-eyebrow">Navigation</p>
-      <div class="menu-rule"></div>
-    </div>
-
-    <nav>
-      <div class="menu-link-wrap"><a href="#results" class="menu-link" data-ml>Results</a></div>
-      <div class="menu-link-wrap"><a href="#flexible-by-design" class="menu-link" data-ml>Services</a></div>
-      <div class="menu-link-wrap"><a href="#cta" class="menu-link" data-ml id="menu-git">Get in Touch</a></div>
-    </nav>
-
-    <div style="margin-top: 3.5rem">
-      <button class="btn-teal" id="menu-book">Book a Consultation</button>
-    </div>
-
-    <div class="menu-footer">The Digital Auteur Strategy &nbsp;·&nbsp; Est. 2019</div>
-  </div>
 
   <!-- ============================================================
        MAIN
@@ -1586,25 +1607,11 @@
       <div class="hero-vignette"></div>
 
       <div class="hero-body">
-        <div class="reveal-clip">
-          <span class="hero-tag reveal-inner" id="hero-tag">Redefining the Spectacle</span>
-        </div>
-
         <h1 class="hero-h1">
-          <span class="reveal-clip"><span class="reveal-inner" id="hl-a">Authentic brand</span></span>
-          <span class="reveal-clip"><span class="reveal-inner" id="hl-b">experiences</span></span>
-          <span class="reveal-clip"><span class="reveal-inner accent-line" id="hl-c">&amp; events</span></span>
+          <span class="reveal-clip"><span class="reveal-inner" id="hl-a">authentic brand</span></span>
+          <span class="reveal-clip"><span class="reveal-inner" id="hl-b">event</span></span>
+          <span class="reveal-clip"><span class="reveal-inner accent-line" id="hl-c">experiences</span></span>
         </h1>
-
-        <div class="hero-cta-row gsap-hide" id="hero-ctas">
-          <a href="#results"><button class="btn-teal mag">See our work</button></a>
-          <button class="btn-outline mag" id="hero-start">Start a project</button>
-        </div>
-      </div>
-
-      <div class="scroll-hint gsap-hide" id="scroll-hint">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
       </div>
     </section>
 
@@ -1654,8 +1661,6 @@
     <!-- ========== RESULTS GALLERY ========== -->
     <section id="results">
       <div class="results-header">
-        <p class="eyebrow">Selected Projects</p>
-        <div class="eyebrow-rule"></div>
         <h2>
           <span class="reveal-clip"><span class="reveal-inner" id="rt-a">RESULTS</span></span>
         </h2>
@@ -1666,16 +1671,16 @@
 
       <div class="gallery-strip" id="gallery-strip">
 
-        <!-- Dreamhack -->
-        <a class="gallery-item" data-index="0" href="https://www.tradegroup.com/case-studies/dreamhack" target="_blank"
-          rel="noopener noreferrer">
-          <img src="images/Case%20Studies/dreamhawk.jpg" alt="Dreamhack" loading="lazy">
+        <!-- Final Fantasy XIV Fan Festival -->
+        <!-- TODO: add case-study link when available -->
+        <a class="gallery-item" data-index="0" href="#results">
+          <img src="images/Case%20Studies/final-fantasy.jpg" alt="Final Fantasy XIV Fan Festival" loading="lazy">
           <div class="gallery-veil"></div>
           <div class="gallery-content-wrap">
             <span class="gallery-num">01</span>
             <div class="gallery-text">
               <p class="gallery-tag">Gaming &amp; Culture</p>
-              <h3 class="gallery-title">Dreamhack</h3>
+              <h3 class="gallery-title">Final Fantasy XIV Fan Festival</h3>
               <span class="gallery-arrow">
                 View case study
                 <span class="material-symbols-outlined">north_east</span>
@@ -1788,19 +1793,19 @@
           <div class="fbd-lists-inner" id="fbd-lists-inner">
             <div class="fbd-list-slot" id="fbd-slot-one">
               <ul class="fbd-list fbd-list-one" id="fbd-list-one">
-                <li>Venue Research</li>
-                <li>Event Design</li>
-                <li>Fabrication & Rental</li>
-                <li>Registration & Housing Management</li>
-                <li>AV & Lighting</li>
+                <li>Venue research</li>
+                <li>Event design</li>
+                <li>Fabrication & rental</li>
+                <li>Registration & housing management</li>
+                <li>AV & lighting</li>
               </ul>
             </div>
             <div class="fbd-list-slot" id="fbd-slot-two">
               <ul class="fbd-list fbd-list-two" id="fbd-list-two">
-                <li>Sponsorship & Exhibitor Services</li>
-                <li>Labor Management</li>
-                <li>Broadcast & Production</li>
-                <li>Talent Management</li>
+                <li>Sponsorship & exhibitor services</li>
+                <li>Labor management</li>
+                <li>Broadcast & production</li>
+                <li>Talent management</li>
                 <li>Analytics</li>
               </ul>
               <div class="fbd-list-two-veil" id="fbd-list-two-veil"></div>
@@ -1853,21 +1858,31 @@
 
     <!-- ========== CTA ========== -->
     <section id="cta">
-      <div class="cta-glow"></div>
-      <div class="cta-card gsap-hide" id="cta-card">
-        <div class="cta-top-line"></div>
-        <p class="eyebrow gsap-hide" id="cta-label">Ready to Begin</p>
-        <div class="eyebrow-rule gsap-hide" id="cta-rule" style="margin: 0.6rem auto 2rem"></div>
-        <h2 class="cta-headline gsap-hide" id="cta-h">
-          READY TO DIRECT<br>
-          <span class="highlight">YOUR NEXT CHAPTER?</span>
-        </h2>
-        <p class="cta-sub gsap-hide" id="cta-p">
-          From intimate summits to global spectacles, let's build a narrative that lasts long after the lights go out.
-        </p>
-        <div style="margin-top:3rem" class="gsap-hide" id="cta-btns">
-          <button class="btn-teal mag" id="cta-git">Get in touch</button>
+      <div class="cta-grid">
+
+        <!-- Left: HubSpot form -->
+        <div class="cta-form-card gsap-hide" id="cta-form">
+          <h2 class="popup-title">
+            <span>Flexible</span>
+            <span>by Design</span>
+          </h2>
+          <div class="hs-form-html" data-region="na1" data-form-id="58e6860d-007e-4c5d-a477-1ab6392f6653"
+            data-portal-id="20503845">
+          </div>
         </div>
+
+        <!-- Right: intro copy + photo -->
+        <div class="cta-info">
+          <h2 class="cta-headline gsap-hide" id="cta-h">Let&rsquo;s make it happen</h2>
+          <p class="cta-sub gsap-hide" id="cta-p">
+            Whether you need a partner to manage your entire event or support just one piece of it, tell us what
+            you have in mind. The right team member will reach out shortly.
+          </p>
+          <div class="cta-photo gsap-hide" id="cta-photo">
+            <img src="images/cta-contact.jpg" alt="Global Events team member meeting with a client" loading="lazy">
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1896,26 +1911,23 @@
           Cinematic event production crafted with precision, narrative, and relentless creative ambition.
         </p>
         <div class="footer-social-row">
-          <a href="#" class="social-btn" aria-label="Facebook">
+          <a href="https://www.linkedin.com/company/the-trade-group/" class="social-btn" aria-label="LinkedIn"
+            target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path
-                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
             </svg>
           </a>
-          <a href="#" class="social-btn" aria-label="X">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
-          <a href="#" class="social-btn" aria-label="Instagram">
+          <a href="https://www.instagram.com/trade_group/" class="social-btn" aria-label="Instagram"
+            target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path fill-rule="evenodd"
                 d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
                 clip-rule="evenodd" />
             </svg>
           </a>
-          <a href="#" class="social-btn" aria-label="YouTube">
+          <a href="https://www.youtube.com/@TradeGroup" class="social-btn" aria-label="YouTube"
+            target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path
                 d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -1924,31 +1936,15 @@
         </div>
       </div>
 
-      <!-- Company col -->
-      <div>
-        <p class="footer-col-label">Company</p>
-        <a href="#" class="footer-link">About Us</a>
-        <a href="#flexible-by-design" class="footer-link">Services</a>
-        <a href="#" class="footer-link">Careers</a>
-      </div>
-
-      <!-- Services col -->
-      <div>
-        <p class="footer-col-label">Services</p>
-        <a href="#" class="footer-link">Live Events</a>
-        <a href="#" class="footer-link">Brand Activations</a>
-        <a href="#" class="footer-link">VFX &amp; Tech</a>
-        <a href="#" class="footer-link">Spatial Design</a>
-      </div>
-
       <!-- Contact col -->
       <div>
         <p class="footer-col-label">Contact</p>
-        <a href="mailto:info@tradegroup.com" class="footer-link">
+        <!-- Email is assembled by script at load so it isn't in the HTML for scrapers -->
+        <a href="#" class="footer-link js-email" data-u="ofni" data-d="moc.puorgedart">
           <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">alternate_email</span>
-          info@tradegroup.com
+          <span class="js-email-text">Email us</span>
         </a>
-        <a href="tel:+12125550100" class="footer-link">
+        <a href="tel:+18003432005" class="footer-link">
           <span class="material-symbols-outlined" style="font-size:0.9rem; color:#353534">call</span>
           +1 (800) 343 2005
         </a>
@@ -1957,8 +1953,8 @@
           Grapevine, TX
         </a>
         <div style="margin-top:1.5rem">
-          <button class="btn-teal" id="footer-git" style="font-size:0.65rem; padding:0.9rem 1.8rem">Get in
-            Touch</button>
+          <a href="#cta" class="btn-teal" id="footer-git"
+            style="font-size:0.65rem; padding:0.9rem 1.8rem; text-decoration:none">Contact</a>
         </div>
       </div>
 
@@ -1968,9 +1964,10 @@
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Global Events. All rights reserved.</p>
       <div class="footer-bottom-links">
-        <a href="#" class="footer-bottom-link">Privacy</a>
-        <a href="#" class="footer-bottom-link">Terms</a>
-        <a href="#" class="footer-bottom-link">Accessibility</a>
+        <a href="https://www.tradegroup.com/legal/privacy-policy" class="footer-bottom-link" target="_blank"
+          rel="noopener noreferrer">Privacy Policy</a>
+        <a href="https://www.tradegroup.com/legal/terms-conditions" class="footer-bottom-link" target="_blank"
+          rel="noopener noreferrer">Terms &amp; Conditions</a>
       </div>
     </div>
 
@@ -1982,23 +1979,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-
-  <!-- ========== CONTACT POPUP ========== -->
-  <div id="contact-popup">
-    <div id="popup-overlay"></div>
-    <div id="popup-card">
-      <button id="popup-close" aria-label="Close form">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <h2 class="popup-title">
-        <span>Flexible</span>
-        <span>by Design</span>
-      </h2>
-      <div class="hs-form-html" data-region="na1" data-form-id="58e6860d-007e-4c5d-a477-1ab6392f6653"
-        data-portal-id="20503845">
-      </div>
-    </div>
-  </div>
 
   <script>
     (() => {
@@ -2053,57 +2033,9 @@
       });
 
       /* ================================================
-         MENU TOGGLE
-      ================================================ */
-      const hamBtn = document.getElementById('ham-btn');
-      const menuOverlay = document.getElementById('menu-overlay');
-      const menuClose = document.getElementById('menu-close');
-      const hl1 = document.getElementById('hl1');
-      const hl2 = document.getElementById('hl2');
-      const hl3 = document.getElementById('hl3');
-      const mLinks = document.querySelectorAll('[data-ml]');
-
-      gsap.set(mLinks, { y: '110%' });
-
-      const menuTl = gsap.timeline({ paused: true })
-        .to(menuOverlay, { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'power4.inOut' })
-        .to(mLinks, { y: '0%', stagger: 0.07, duration: 0.65, ease: 'power3.out' }, '-=0.35');
-
-      let menuOpen = false;
-      function openMenu() {
-        menuOpen = true;
-        menuOverlay.classList.add('is-open');
-        menuOverlay.setAttribute('aria-hidden', 'false');
-        hamBtn.setAttribute('aria-expanded', 'true');
-        menuTl.play();
-        gsap.to(hl1, { rotation: 45, y: 6.5, duration: 0.3 });
-        gsap.to(hl2, { autoAlpha: 0, duration: 0.15 });
-        gsap.to(hl3, { rotation: -45, y: -6.5, duration: 0.3 });
-        document.body.style.overflow = 'hidden';
-      }
-      function closeMenu() {
-        menuOpen = false;
-        menuTl.reverse();
-        hamBtn.setAttribute('aria-expanded', 'false');
-        gsap.to(hl1, { rotation: 0, y: 0, duration: 0.3 });
-        gsap.to(hl2, { autoAlpha: 1, duration: 0.2, delay: 0.1 });
-        gsap.to(hl3, { rotation: 0, y: 0, duration: 0.3 });
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          menuOverlay.classList.remove('is-open');
-          menuOverlay.setAttribute('aria-hidden', 'true');
-        }, 750);
-      }
-      hamBtn.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
-      menuClose.addEventListener('click', closeMenu);
-      mLinks.forEach(l => l.addEventListener('click', closeMenu));
-
-      /* ================================================
          PRELOADER → PAGE ENTRY
       ================================================ */
       gsap.set(siteNav, { y: -80, autoAlpha: 0 });
-      gsap.set('#scroll-hint', { autoAlpha: 0 });
-      gsap.set('#hero-ctas', { y: 20 });
 
       const intro = gsap.timeline({
         onComplete: () => {
@@ -2119,12 +2051,9 @@
         .to('#preloader', { autoAlpha: 0, duration: 0.65, ease: 'power2.inOut' }, '+=0.25')
         .set('#preloader', { display: 'none' })
         .to(siteNav, { y: 0, autoAlpha: 1, duration: 0.8 }, '-=0.2')
-        .to('#hero-tag', { y: '0%', duration: 0.75 }, '-=0.4')
         .to('#hl-a', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.4')
         .to('#hl-b', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.78')
-        .to('#hl-c', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.78')
-        .to('#hero-ctas', { autoAlpha: 1, y: 0, duration: 0.7, ease: 'back.out(1.7)' }, '-=0.45')
-        .to('#scroll-hint', { autoAlpha: 1, duration: 0.5 }, '-=0.25');
+        .to('#hl-c', { y: '0%', duration: 1.0, ease: 'power4.out' }, '-=0.78');
 
       /* ================================================
          HERO PARALLAX
@@ -2295,19 +2224,16 @@
       /* ================================================
          CTA SECTION
       ================================================ */
-      gsap.set(['#cta-h', '#cta-p', '#cta-btns'], { y: 35 });
-      gsap.set(['#cta-label', '#cta-rule'], { y: 15 });
-      gsap.set('#cta-card', { y: 50 });
+      gsap.set(['#cta-form', '#cta-h', '#cta-p', '#cta-photo'], { y: 35 });
 
       ScrollTrigger.create({
         trigger: '#cta', start: 'top 72%', once: true,
         onEnter: () => {
           gsap.timeline()
-            .to('#cta-card', { y: 0, autoAlpha: 1, duration: 0.85 })
-            .to(['#cta-label', '#cta-rule'], { autoAlpha: 1, y: 0, stagger: 0.06, duration: 0.5 }, '-=0.45')
-            .to('#cta-h', { autoAlpha: 1, y: 0, duration: 0.75 }, '-=0.25')
-            .to('#cta-p', { autoAlpha: 1, y: 0, duration: 0.65 }, '-=0.3')
-            .to('#cta-btns', { autoAlpha: 1, y: 0, duration: 0.55, ease: 'back.out(1.7)' }, '-=0.2');
+            .to('#cta-form', { y: 0, autoAlpha: 1, duration: 0.85 })
+            .to('#cta-h', { autoAlpha: 1, y: 0, duration: 0.75 }, '-=0.55')
+            .to('#cta-p', { autoAlpha: 1, y: 0, duration: 0.65 }, '-=0.45')
+            .to('#cta-photo', { autoAlpha: 1, y: 0, duration: 0.75 }, '-=0.4');
         }
       });
 
@@ -2353,57 +2279,17 @@
       ================================================ */
       window.addEventListener('load', () => ScrollTrigger.refresh());
 
-      /* ================================================
-         CONTACT POPUP
-      ================================================ */
-      (function initPopup() {
-        const popup = document.getElementById('contact-popup');
-        const overlay = document.getElementById('popup-overlay');
-        const card = document.getElementById('popup-card');
-        const closeBtn = document.getElementById('popup-close');
-
-        function openPopup() {
-          popup.classList.add('is-open');
-          gsap.to(overlay, { opacity: 1, duration: 0.35, ease: 'power2.out' });
-          gsap.fromTo(card,
-            { opacity: 0, y: 24 },
-            { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 }
-          );
-        }
-
-        function closePopup() {
-          gsap.to(card, { opacity: 0, y: 16, duration: 0.28, ease: 'power2.in' });
-          gsap.to(overlay, {
-            opacity: 0, duration: 0.35, ease: 'power2.in', delay: 0.05,
-            onComplete: () => popup.classList.remove('is-open')
-          });
-        }
-
-        // Close triggers
-        closeBtn.addEventListener('click', closePopup);
-        overlay.addEventListener('click', closePopup);
-        document.addEventListener('keydown', e => {
-          if (e.key === 'Escape') closePopup();
-        });
-
-        // Menu triggers — close the nav overlay first, then open popup
-        document.getElementById('menu-git').addEventListener('click', e => {
-          e.preventDefault();
-          closeMenu();
-          setTimeout(openPopup, 400);
-        });
-        document.getElementById('menu-book').addEventListener('click', () => {
-          closeMenu();
-          setTimeout(openPopup, 400);
-        });
-
-        // Direct triggers
-        document.getElementById('hero-start').addEventListener('click', openPopup);
-        document.getElementById('cta-git').addEventListener('click', openPopup);
-        document.getElementById('footer-git').addEventListener('click', openPopup);
-      })();
-
     })();
+  </script>
+  <script>
+    /* Email obfuscation: rebuild the address from reversed parts at runtime */
+    document.querySelectorAll('.js-email').forEach(function (el) {
+      var rev = function (s) { return s.split('').reverse().join(''); };
+      var addr = rev(el.dataset.u) + String.fromCharCode(64) + rev(el.dataset.d);
+      el.href = 'mai' + 'lto:' + addr;
+      var t = el.querySelector('.js-email-text');
+      if (t) t.textContent = addr;
+    });
   </script>
 </body>
 
